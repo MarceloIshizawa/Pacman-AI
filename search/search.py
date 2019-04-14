@@ -200,6 +200,8 @@ def uniformCostSearch(problem):
         state_visited, cost = lista_de_prioridades.pop(0)
         #print(state_visited, cost)
         #print(state_visited)
+        if state_visited in lista_visitados2:
+            continue
 
         if problem.isGoalState(state_visited):
             final_state = state_visited
@@ -211,11 +213,11 @@ def uniformCostSearch(problem):
         for son in expansion:
             #print(son[0], son[0] in lista_visitados2)
                 
-            if son[0] not in [x[0] for x in lista_de_prioridades]:
-                if son[0] not in lista_visitados2:
-                    lista_de_prioridades.append((son[0], cost+son[2]))
-                    family_relations.append((state_visited, son[1], son[0], cost+son[2]))   
-                    lista_de_prioridades= sorted(lista_de_prioridades ,key =  lambda x:x[1])
+            
+            if son[0] not in lista_visitados2:
+                lista_de_prioridades.append((son[0], cost+son[2]))
+                family_relations.append((state_visited, son[1], son[0], cost+son[2]))   
+                lista_de_prioridades= sorted(lista_de_prioridades ,key =  lambda x:x[1])
     answer = []
     aux_state = final_state
     
