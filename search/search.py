@@ -235,20 +235,73 @@ def uniformCostSearch(problem):
 
     return answer
 
+	
 
+	
+	
 def nullHeuristic(state, problem=None):
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
     return 0
-
-
+	
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    " YOUR CODE HERE "
+    " YOUR CODE HERE "
+    " YOUR CODE HERE "
 
+    lista_de_prioridades = []
+    start_state = problem.getStartState()
+    lista_de_prioridades.append((start_state, 0))
+    lista_visitados2 = []
+    action_list = []
+    family_relations = []
+    final_state = None
+
+    while (len(lista_de_prioridades)>0):
+        #Expansion 
+        #print(lista_de_prioridades)
+        state_visited, cost = lista_de_prioridades.pop(0)
+        #print(state_visited, cost)
+        #print(state_visited)
+        if state_visited in lista_visitados2:
+            continue
+
+        if problem.isGoalState(state_visited):
+            final_state = state_visited
+            break
+
+        lista_visitados2.append(state_visited)
+        expansion = problem.getSuccessors(state_visited)
+        #print(expansion)
+        for son in expansion:
+            #print(son[0], son[0] in lista_visitados2)
+
+
+            if son[0] not in lista_visitados2:
+                lista_de_prioridades.append((son[0], cost+son[2]))
+                #print("heu",son[0], heuristic(son[0], problem))
+                family_relations.append((state_visited, son[1], son[0], cost+son[2]))
+                lista_de_prioridades= sorted(lista_de_prioridades ,key =  lambda x:x[1]+ heuristic(x[0], problem))
+    answer = []
+    aux_state = final_state
+
+    #print(family_relations)
+    while (aux_state!= start_state):
+        aux = None
+        for t in sorted(family_relations, key = lambda x:x[3]):
+            if t[2] == aux_state:
+                aux = t
+                answer.insert(0,t[1])
+                aux_state = t[0]
+        #print(aux_state)
+
+    #answer = [x for x in reversed(answer)]
+
+    return answer
+	
 
 def learningRealTimeAStar(problem, heuristic=nullHeuristic):
     """Execute a number of trials of LRTA* and return the best plan found."""
